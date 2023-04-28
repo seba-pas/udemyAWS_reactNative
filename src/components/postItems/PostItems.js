@@ -1,11 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 import styles from "./styles";
+import colors from "../../modal/colors";
 
 const PostItems = () => {
   return (
     <View style={styles.container}>
-      <StatusBar style='auto' backgroundColor="#fec85c" />
+      <StatusBar style='auto' backgroundColor={colors.primary} />
       <View style={styles.card}>
         <Image
           source={{

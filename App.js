@@ -1,17 +1,18 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, Platform } from "react-native";
+import {
+  StyleSheet,
+
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PostItems from "./src/components/postItems/PostItems";
-import { Feather } from '@expo/vector-icons';
+
+import colors from "./src/modal/colors";
+import Header from "./src/components/headerForMobile/Header";
 
 export default function App() {
   return (
     <SafeAreaView style={styles.SafeAreaViewForDroid}>
-      <View>
-        <Text>Search by text</Text>
-        <Text>Search by location</Text>
-        <Text>Search by category</Text>
-      </View>
+     <Header />
       <PostItems />
     </SafeAreaView>
   );
@@ -20,5 +21,6 @@ export default function App() {
 const styles = StyleSheet.create({
   SafeAreaViewForDroid: {
     flex: 1,
+    backgroundColor: colors.background,
   },
 });
