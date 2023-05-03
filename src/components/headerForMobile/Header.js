@@ -12,7 +12,7 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import colors from "./src/modal/colors";
+import colors from '../../modal/colors';
 
 
 

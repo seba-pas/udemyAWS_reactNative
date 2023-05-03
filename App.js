@@ -1,19 +1,16 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-
-} from "react-native";
+import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import PostItems from "./src/components/postItems/PostItems";
-
+import { StatusBar } from "expo-status-bar";
+import {StyleSheet} from 'react-native'
 import colors from "./src/modal/colors";
-import Header from "./src/components/headerForMobile/Header";
+import Home from "./src/screens/home/Index";
+
 
 export default function App() {
   return (
     <SafeAreaView style={styles.SafeAreaViewForDroid}>
-     <Header />
-      <PostItems />
+      <StatusBar style="auto" backgroundColor={colors.primary} />
+      <Home />
     </SafeAreaView>
   );
 }
