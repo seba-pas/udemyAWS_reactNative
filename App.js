@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import {StyleSheet} from 'react-native'
 import colors from "./src/modal/colors";
 import Router from "./src/navigation/Router";
+import 'react-native-gesture-handler'
 
 
 export default function App() {
