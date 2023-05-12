@@ -1,11 +1,34 @@
-import { Pressable, StyleSheet, Text, View, TextInput } from "react-native";
-import React from "react";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+} from "react-native";
+import React, { useState, useEffect } from "react";
 import { withAuthenticator } from "aws-amplify-react-native";
 import { Auth } from "aws-amplify";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../../modal/colors";
+import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
+import { ScrollView } from "react-native-gesture-handler";
 
 const Listing = () => {
+  const [imageData, setImageData] = useState([]);
+  const [category, setCategory] = useState({ catID: 0, catName: "category" });
+  const [location, setLocation] = useState({
+    locID: 0,
+    locName: 'Location',
+  });
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [value, setValue] = useState('')
+
+  const route = useRoute();
+  const navigation = useNavigation();
+
   Auth.currentAuthenticatedUser()
     .then((user) => {
       console.log(user.attributes.email);
@@ -13,6 +36,21 @@ const Listing = () => {
     .catch((error) => {
       console.log(error);
     });
+
+  useEffect(() => {
+    if (!route.params) {
+      console.log("There are no params to show");
+    } else {
+      if (route?.params?.imageData !== undefined) {
+        setImageData(route?.params?.imageData);
+        console.log(imageData);
+      } else if (route?.params?.catID !== undefined) {
+        setCategory(route.params);
+      } else if (route?.params?.locID !== undefined) {
+        setLocation(route.params);
+      }
+    }
+  });
 
   return (
     <View style={{ margin: 10 }}>
@@ -33,11 +71,29 @@ const Listing = () => {
             width: 150,
             height: 150,
           }}
+          onPress={() => navigation.navigate("SelectPhotos")}
         >
           <AntDesign name="pluscircle" size={24} color="black" />
         </Pressable>
       </View>
-      <View
+      <ScrollView horizontal={true}>
+        {imageData &&
+          imageData.map((e, index) => {
+            return (
+              <Image
+                source={{ uri: e.uri }}
+                key={index}
+                style={{
+                  height: 100,
+                  width: 100,
+                  margin: 10,
+                  marginHotizontal: 10,
+                }}
+              />
+            );
+          })}
+      </ScrollView>
+      <Pressable
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -50,11 +106,13 @@ const Listing = () => {
           borderRadius: 10,
           padding: 5,
         }}
+        onPress={() => navigation.navigate("SelectCategory")}
+        android_ripple={{ color: "grey" }}
       >
-        <Text>Category</Text>
+        <Text>{category.catName}</Text>
         <AntDesign name="right" size={24} color="black" />
-      </View>
-      <View
+      </Pressable>
+      <Pressable
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -66,22 +124,24 @@ const Listing = () => {
           backgroundColor: colors.white,
           borderRadius: 10,
           padding: 5,
-        }}
+        }} onPress={() => navigation.navigate("SelectLocation")}
       >
-        <Text>Location</Text>
+        <Text>{location.locName}</Text>
         <AntDesign name="right" size={24} color="black" />
-      </View>
+      </Pressable>
 
       <View>
-        <TextInput placeholder="Write a title" style={styles.input} />
+        <TextInput placeholder="Write a title" style={styles.input} onChangeText={(text) => setTitle(text)} />
       </View>
       <View>
-        <TextInput placeholder="Write a description" style={styles.input} />
+        <TextInput multiline={true} numberOfLines={3} placeholder="Write a description" style={styles.input} onChangeText={(text) => setDescription(text)} />
       </View>
       <View>
         <TextInput
           placeholder="Add a value"
           style={[styles.input, { width: "50%" }]}
+          onChangeText={(text) => setValue(text)}
+          keyboardType="number-pad"
         />
       </View>
       <View
@@ -110,6 +170,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     marginVertical: 10,
+    width:'100%',
+
 
     paddingVertical: 10,
     backgroundColor: colors.white,

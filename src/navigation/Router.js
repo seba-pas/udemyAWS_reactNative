@@ -6,6 +6,9 @@ import Home from "../screens/home/Index";
 import PostDetails from "../screens/postDetails/PostDetails";
 import colors from "../modal/colors";
 import BottomTabNavigator from "./bottomTabNavigator";
+import SelectPhotosScreen from "../screens/selectPhotos";
+import SelectCategoryScreen from "../screens/selectCategory";
+import SelectLocationScreen from "../screens/selectLocation";
 
 const Router = () => {
   const Stack = createStackNavigator();
@@ -21,6 +24,9 @@ const Router = () => {
       >
         <Stack.Screen name="Home" component={BottomTabNavigator} />
         <Stack.Screen name="PostDetails" component={PostDetails} />
+        <Stack.Screen name="SelectPhotos" component={SelectPhotosScreen} />
+        <Stack.Screen name="SelectCategory" component={SelectCategoryScreen}/>
+        <Stack.Screen name="SelectLocation" component={SelectLocationScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
