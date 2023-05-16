@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable, TouchableOpacity} from "react-native";
 import styles from "./styles";
 import colors from "../../modal/colors";
 import { useNavigation } from "@react-navigation/native";
@@ -28,7 +28,10 @@ const PostItems = () => {
               <Text style={styles.postTitle}>This is title for rent</Text>
               <Text style={styles.postPlace}>Guatemala</Text>
             </View>
+            <TouchableOpacity onPress={() => navigation.navigate('Prueba')}>
+
             <Text style={styles.postValue}>$100/Day</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Pressable>

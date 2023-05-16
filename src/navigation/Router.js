@@ -9,6 +9,8 @@ import BottomTabNavigator from "./bottomTabNavigator";
 import SelectPhotosScreen from "../screens/selectPhotos";
 import SelectCategoryScreen from "../screens/selectCategory";
 import SelectLocationScreen from "../screens/selectLocation";
+import Prueba from "../components/prueba";
+
 
 const Router = () => {
   const Stack = createStackNavigator();
@@ -27,6 +29,7 @@ const Router = () => {
         <Stack.Screen name="SelectPhotos" component={SelectPhotosScreen} />
         <Stack.Screen name="SelectCategory" component={SelectCategoryScreen}/>
         <Stack.Screen name="SelectLocation" component={SelectLocationScreen}/>
+        <Stack.Screen name="Prueba" component={Prueba}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

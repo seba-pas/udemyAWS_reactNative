@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "rent0fcad68d": {}
+      },
+      "api": {
+        "rent": {}
+      },
+      "storage": {
+        "rentproject": {}
       }
     }
   }

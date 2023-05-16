@@ -8,12 +8,15 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { withAuthenticator } from "aws-amplify-react-native";
-import { Auth } from "aws-amplify";
+import { Auth, Storage, API, graphqlOperation } from "aws-amplify";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../../modal/colors";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
+import {v4 as uuidv4} from 'uuid'
+import 'react-native-get-random-values'
+
 
 const Listing = () => {
   const [imageData, setImageData] = useState([]);
@@ -25,6 +28,7 @@ const Listing = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [value, setValue] = useState('')
+  const [ userID, setUserID] = useState('')
 
   const route = useRoute();
   const navigation = useNavigation();
@@ -32,10 +36,42 @@ const Listing = () => {
   Auth.currentAuthenticatedUser()
     .then((user) => {
       console.log(user.attributes.email);
+      setUserID(user.attributes.sub)
     })
     .catch((error) => {
       console.log(error);
     });
+
+
+    const imageAllUrl = []
+
+async function storeToDatabase(){
+  imageData && imageData.map(async (e, index)=>{
+    const imageUrl = e.uri 
+  const response = await fetch(imageUrl)
+  const blob = await response.blob()
+  const urlParts = imageUrl.split('.')
+  const extension = urlParts[urlParts.length - 1]
+  const key = `${uuidv4()}.${extension}`
+  imageAllUrl.push({imageUri: key})
+  await Storage.put(key, blob)
+if(imageData.length == index + 1){
+  const postData= {
+    title: title,
+    categoryName: category.catName,
+    categoryID: category.catID,
+    description: description,
+    images: JSON.stringify(imageAllUrl),
+    locationID: location.locID,
+    locationName: location.locName,
+    userID: userID,
+    commonID: '1'
+  }
+  await API.graphql(graphqlOperation(), createListing, {input: postData})
+}
+  })
+}
+
 
   useEffect(() => {
     if (!route.params) {
@@ -53,6 +89,10 @@ const Listing = () => {
   });
 
   return (
+    <ScrollView>
+
+
+
     <View style={{ margin: 10 }}>
       <View>
         <Text style={{ marginVertical: 10, fontSize: 18 }}>
@@ -144,7 +184,9 @@ const Listing = () => {
           keyboardType="number-pad"
         />
       </View>
-      <View
+      <Pressable
+      onPress={storeToDatabase}
+      android_ripple={{color:'grey'}}
         style={{
           marginHorizontal: 20,
           marginVertical: 30,
@@ -156,8 +198,9 @@ const Listing = () => {
         }}
       >
         <Text style={{ fontWeight: "bold" }}>POST AD</Text>
-      </View>
+      </Pressable>
     </View>
+    </ScrollView>
   );
 };
 
