@@ -16,6 +16,7 @@ import { useRoute } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import {v4 as uuidv4} from 'uuid'
 import 'react-native-get-random-values'
+import { createListing } from "../../graphql/mutations";
 
 
 const Listing = () => {
